@@ -32,14 +32,14 @@
         <stringProp name="CookieManager.implementation">org.apache.jmeter.protocol.http.control.HC4CookieHandler</stringProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create profile - Setup" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="[SETUP] - Create consumers" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(setupUsers, 0)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__BeanShell(${__P(setupUsers, 0)}/2)}</stringProp>
         <longProp name="ThreadGroup.start_time">1499075988000</longProp>
         <longProp name="ThreadGroup.end_time">1499075988000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -165,14 +165,14 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Ensure profile created successfully" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="280363617">profiles.success_add</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.test_field">Assertion.sample_label</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
-          </ResponseAssertion>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Ensure profile already created or created successfully" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String response = new String(ResponseData);
+
+Failure = !(response.contains(&apos;The username or email you have chosen already exists. Please try another one.&apos;) || response.contains(&apos;The account has been created successfully.&apos;));</stringProp>
+          </BeanShellPostProcessor>
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
@@ -288,9 +288,9 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(consumerCreationLoops, 1)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(consumerCreationCount, 1)}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(consumerCreationThreads, 0)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(consumerCreationUsers, 0)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(consumerCreationRampup, 60)}</stringProp>
         <longProp name="ThreadGroup.start_time">1499075988000</longProp>
         <longProp name="ThreadGroup.end_time">1499075988000</longProp>
@@ -536,14 +536,14 @@
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Order placement" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Place order" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">${__P(orderCount,1)}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${__P(orderUsers,0)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(orderRampup,0)}</stringProp>
         <longProp name="ThreadGroup.start_time">1499075988000</longProp>
         <longProp name="ThreadGroup.end_time">1499075988000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
