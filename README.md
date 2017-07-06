@@ -6,7 +6,7 @@ jmeter -t cscart.jmx -JsetupUsers=100
 
 ## Run tests
 
-jmeter -t cscart.jmx -JconsumerCreationThreads=100 -JorderUsers=100
+jmeter -t cscart.jmx -JconsumerCreationUsers=100 -JorderUsers=100
 
 ## Test configuration parameters
 
@@ -15,6 +15,7 @@ jmeter -t cscart.jmx -JconsumerCreationThreads=100 -JorderUsers=100
 | serverUrl | limitless-inlet-94061.herokuapp.com | The tget URL of the server to test
 | consumerCreationUsers | 0 | The number of users which will create a profile
 | orderUsers | 0 | The number of users which will create a profile
+| homepage | 0 | The number of users hitting homepage
 
 
 Additional parameters
@@ -26,3 +27,5 @@ Additional parameters
 | consumerCreationCount | 1 | The number of scenarios to be played
 | orderRampup | 60 | The time in seconds to ramp-up
 | orderCount | 1 | The number of scenarios to be played
+| homepageRampup | 60 | The time in seconds to ramp-up
+| homepageCount | 1 | The number of scenarios to be played
